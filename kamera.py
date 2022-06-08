@@ -14,6 +14,7 @@ class Kamera():
         self.kameraWhiteAndBlack = None
         self.kameraHSV = None
         self.kameraIAVision = None
+        self.kameraBorders = None
         #
         self.cap = cv2.VideoCapture(self.default_kamera)
 
@@ -60,16 +61,15 @@ class Kamera():
 
     def showIAVision(self, image):
         nameWindow ="Controllers: ->"
-        imagenGris=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
         min=cv2.getTrackbarPos("min",nameWindow)
         max=cv2.getTrackbarPos("max",nameWindow)
-        bordes=cv2.Canny(imagenGris,min,max)
+        self.kameraBorders=cv2.Canny(self.kameraWhiteAndBlack,min,max)
         tamañokernel=cv2.getTrackbarPos("kernel",nameWindow)
         kernel=np.ones((tamañokernel,tamañokernel),np.uint8)
-        bordes=cv2.dilate(bordes,kernel)
-        cv2.imshow("Borders",bordes)
-        objetos,jerarquias=cv2.findContours(bordes,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-        self.kameraIAVision = np.zeros_like(bordes)
+        self.kameraBorders=cv2.dilate(self.kameraBorders,kernel)
+        cv2.imshow("Borders",self.kameraBorders)
+        objetos,jerarquias=cv2.findContours(self.kameraBorders,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+        self.kameraIAVision = np.zeros_like(self.kameraBorders)
         cv2.drawContours(self.kameraIAVision, objetos, -1, 255, 1)
         cv2.imshow('IA visión', self.kameraIAVision)
 
