@@ -81,7 +81,7 @@ class ArtificialInteligence():
         return imagenes_entrenamiento, valores_esperados
 
 
-a = ArtificialInteligence()
-a.model_a()
+#a = ArtificialInteligence()
+#a.model_a()
 
     

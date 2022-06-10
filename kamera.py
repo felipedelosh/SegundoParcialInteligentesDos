@@ -9,14 +9,14 @@ import numpy as np
 class Kamera():
     def __init__(self) -> None:
         self.default_kamera = 0
-        self.host_kamera = ''
+        self.host_kamera = 'http://192.168.1.100:4747/video' # I hav anndriod and install DroidCAM
         # Cameras
         self.kameraWhiteAndBlack = None
         self.kameraHSV = None
         self.kameraIAVision = None
         self.kameraBorders = None
         #
-        self.cap = cv2.VideoCapture(self.default_kamera)
+        self.cap = cv2.VideoCapture(self.host_kamera)
 
     def nothing(self, x):
         """
