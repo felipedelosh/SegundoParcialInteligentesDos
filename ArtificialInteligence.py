@@ -310,7 +310,7 @@ class ArtificialInteligence():
         width = 128
         height = 128
 
-        miModeloCNN = Prediccion("models/model_c.h5", width, height)
+        miModeloCNN = Prediction("models/model_c.h5", width, height)
         imagen_seleccionada = cv2.imread(imagen, 0)
 
         categodria_predicha = miModeloCNN.predecir(imagen_seleccionada)
@@ -322,7 +322,7 @@ class ArtificialInteligence():
         cv2.imshow("Imagen", img)
 
 
-
+#FelipedelosH
 i = ArtificialInteligence()
 i.modelo1()
 i.modelo2()
