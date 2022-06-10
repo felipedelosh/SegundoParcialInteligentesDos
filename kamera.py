@@ -26,12 +26,6 @@ class Kamera():
         """
         pass
 
-    def turnONTurnDownBlackAndWhite(self):
-        print("asdadsadasdasd")
-
-    def detedForms(self):
-        pass
-
 
     def generateSlidersPanel(self):
         nameWindow ="Controllers: ->"
@@ -78,7 +72,6 @@ class Kamera():
 
 
     def _initKamera(self):
-        acum = 0
         cont = 0
         while(True):
             ret,frame = self.cap.read()
@@ -92,11 +85,7 @@ class Kamera():
                 img_name ="imagen_{}.jpg".format(img_counter)
                 cv2.imwrite(img_name,frame)
 
-                
                 img_counter += 1
-                #acum = acum + main.probarModelo(img_name)
-
-                #main.mostrarAcumulado(acum, frame)
 
         self.cap.release()
         cv2.destroyAllWindows()
