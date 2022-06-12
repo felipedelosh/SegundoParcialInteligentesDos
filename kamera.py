@@ -89,7 +89,7 @@ class Kamera():
                 img_name ="imagen_{}.jpg".format(img_counter)
                 print(img_name)
                 cv2.imwrite(img_name,frame) # Save a img in a root project
-                self.detectarForma(frame, frame, img_name)
+                self.detectarForma(frame,img_name)
 
                 img_counter = img_counter + 1
                 acum = self.probarModelo(img_name)
@@ -100,8 +100,7 @@ class Kamera():
         self.cap.release()
         cv2.destroyAllWindows()
 
-    def detectarForma(self,frame,imagen,img_name):
-        nameWindow = "IA detection"
+    def detectarForma(self, imagen, img_name):
         imagenGris=cv2.cvtColor(imagen,cv2.COLOR_BGR2GRAY)
         cv2.imshow("Grises",imagenGris)
         min=cv2.getTrackbarPos("min",self.nameWindow)
@@ -125,10 +124,9 @@ class Kamera():
 
                 if len(vertices) == 4 :
                     x, y, w, h = cv2.boundingRect(vertices)
-                    new_img=frame[y:y+h,x:x+w]
+                    new_img=imagen[y:y+h,x:x+w]
                     cv2.imwrite(img_name,new_img)
             i = i+1
-
 
     def calcularAreas(self, objetos):
         areas=[]

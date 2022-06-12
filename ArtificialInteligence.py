@@ -104,7 +104,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=24, batch_size=48)
+        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=96)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -122,7 +122,7 @@ class ArtificialInteligence():
 
         metricResult = model.evaluate(x=imagenes, y=probabilidades)
 
-        scnn_pred = model.predict(imagenes_prueba, batch_size=60, verbose=1)
+        scnn_pred = model.predict(imagenes_prueba, batch_size=150, verbose=1)
         scnn_predicted = np.argmax(scnn_pred, axis=1)
 
         # Creamos la matriz de confusión
@@ -181,7 +181,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=24, batch_size=48)
+        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=96)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -199,7 +199,7 @@ class ArtificialInteligence():
 
         metricResult = model.evaluate(x=imagenes, y=probabilidades)
 
-        scnn_pred = model.predict(imagenes_prueba, batch_size=60, verbose=1)
+        scnn_pred = model.predict(imagenes_prueba, batch_size=150, verbose=1)
         scnn_predicted = np.argmax(scnn_pred, axis=1)
 
         # Creamos la matriz de confusión
@@ -259,7 +259,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=24, batch_size=48)
+        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=96)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -277,7 +277,7 @@ class ArtificialInteligence():
 
         metricResult = model.evaluate(x=imagenes, y=probabilidades)
 
-        scnn_pred = model.predict(imagenes_prueba, batch_size=60, verbose=1)
+        scnn_pred = model.predict(imagenes_prueba, batch_size=150, verbose=1)
         scnn_predicted = np.argmax(scnn_pred, axis=1)
 
         # Creamos la matriz de confusión
@@ -325,5 +325,8 @@ class ArtificialInteligence():
 #FelipedelosH
 #i = ArtificialInteligence()
 #i.modelo1()
+#print("===========Fin modelo 1==========")
 #i.modelo2()
+#print("===========Fin modelo 2==========")
 #i.modelo3()
+#print("===========Fin modelo 3==========")
