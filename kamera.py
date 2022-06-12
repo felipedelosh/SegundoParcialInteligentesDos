@@ -14,11 +14,7 @@ class Kamera():
         self.host_kamera = 'http://192.168.20.62:4747/video' # I hav anndriod and install DroidCAM
         # Config kamera
         self.nameWindow = "Controllers: ->"
-        cv2.namedWindow(self.nameWindow)
-        cv2.createTrackbar("min",self.nameWindow,0,255,self.nothing)
-        cv2.createTrackbar("max",self.nameWindow,1,100,self.nothing)
-        cv2.createTrackbar("kernel",self.nameWindow,0,255,self.nothing)
-        cv2.createTrackbar("areaMin",self.nameWindow,500,10000,self.nothing)
+
         # Cameras
         self.kameraWhiteAndBlack = None
         self.kameraHSV = None
@@ -26,6 +22,7 @@ class Kamera():
         self.kameraBorders = None
         # IA
         self.IA = ArtificialInteligence()
+        self.carts = []
         #
         self.cap = cv2.VideoCapture(self.host_kamera)
 
@@ -39,7 +36,11 @@ class Kamera():
 
 
     def generateSlidersPanel(self):
-        pass
+        cv2.namedWindow(self.nameWindow)
+        cv2.createTrackbar("min",self.nameWindow,0,255,self.nothing)
+        cv2.createTrackbar("max",self.nameWindow,1,100,self.nothing)
+        cv2.createTrackbar("kernel",self.nameWindow,0,255,self.nothing)
+        cv2.createTrackbar("areaMin",self.nameWindow,500,10000,self.nothing)
        
 
     def launchKamera(self):
@@ -84,12 +85,19 @@ class Kamera():
                 break
             k=cv2.waitKey(1)
             if k%256 == 99 :
+                self.carts = []
                 cont = cont + 1
                 print("Take a picture: ")
                 img_name ="imagen_{}.jpg".format(img_counter)
+                img_name_2gray_color ="imagen_2gaycolor{}.jpg".format(img_counter)
                 print(img_name)
-                cv2.imwrite(img_name,frame) # Save a img in a root project
-                self.detectarForma(frame,img_name)
+                #cv2.imwrite(img_name,frame) # Save a img in a root project
+                # Image 2 gray color to send a IA
+                imagen2GRAY=cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                cv2.imwrite(img_name,frame) # Print a real photo
+                cv2.imwrite(img_name_2gray_color,imagen2GRAY) # Print a B&W image to user see
+                print("Detectando formas...")
+                self.detectarForma(frame,img_counter)
 
                 img_counter = img_counter + 1
                 acum = self.probarModelo(img_name)
@@ -102,6 +110,8 @@ class Kamera():
 
     def detectarForma(self, imagen, img_name):
         imagenGris=cv2.cvtColor(imagen,cv2.COLOR_BGR2GRAY)
+        img_name_to_detect_forms ="imagen_2gaycolor{}.jpg".format(img_name)
+        cv2.imwrite(img_name_to_detect_forms,imagenGris)
         cv2.imshow("Grises",imagenGris)
         min=cv2.getTrackbarPos("min",self.nameWindow)
         max=cv2.getTrackbarPos("max",self.nameWindow)
@@ -117,6 +127,8 @@ class Kamera():
         areas=self.calcularAreas(objetos)
         i=0
         areaMin=cv2.getTrackbarPos("areaMin",self.nameWindow)
+        print("Cantidad de cartas detectadas...", len(objetos))
+        contador = 0
         for objetoActual in objetos:
             if areas[i]>=areaMin:
 
@@ -124,8 +136,13 @@ class Kamera():
 
                 if len(vertices) == 4 :
                     x, y, w, h = cv2.boundingRect(vertices)
-                    new_img=imagen[y:y+h,x:x+w]
-                    cv2.imwrite(img_name,new_img)
+                    new_img=imagen[y:y+h,x:x+w] # Rectangle
+                    name = "IMG_detectForm_" + str(contador) + "_PICTURE_" + str(img_name) + ".jpg"
+                    img_name_to_detect_forms = name
+                    # Save a cart
+                    self.carts.append(new_img)
+                    cv2.imwrite(img_name_to_detect_forms,new_img)
+                    contador = contador + 1
             i = i+1
 
     def calcularAreas(self, objetos):

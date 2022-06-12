@@ -323,10 +323,13 @@ class ArtificialInteligence():
 
 
 #FelipedelosH
-#i = ArtificialInteligence()
-#i.modelo1()
-#print("===========Fin modelo 1==========")
-#i.modelo2()
-#print("===========Fin modelo 2==========")
-#i.modelo3()
-#print("===========Fin modelo 3==========")
+"""
+
+i = ArtificialInteligence()
+i.modelo1()
+print("===========Fin modelo 1==========")
+i.modelo2()
+print("===========Fin modelo 2==========")
+i.modelo3()
+print("===========Fin modelo 3==========")
+"""
