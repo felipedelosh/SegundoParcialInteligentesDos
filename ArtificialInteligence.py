@@ -69,7 +69,7 @@ class ArtificialInteligence():
         img_shape = (width, height, num_channels)
 
         # Cant elementos a clasifica
-        num_clases = 10
+        num_clases = 12
         cantidad_datos_entenamiento =  [8,8,8,8,8,8,8,8,8,8,8,8]
         cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5,5,5]
         
@@ -104,7 +104,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=30, batch_size=60)
+        model.fit(x=imagenes, y=probabilidades, epochs=24, batch_size=48)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -129,7 +129,7 @@ class ArtificialInteligence():
         scnn_cm = confusion_matrix(np.argmax(probabilidades_prueba, axis=1), scnn_predicted)
 
         # Visualiamos la matriz de confusión
-        scnn_df_cm = pd.DataFrame(scnn_cm, range(9), range(9))
+        scnn_df_cm = pd.DataFrame(scnn_cm, range(11), range(11))
         plt.figure(figsize=(20, 14))
         sn.set(font_scale=1.4)  # for label size
         sn.heatmap(scnn_df_cm, annot=True, annot_kws={"size": 12})  # font size
@@ -148,7 +148,7 @@ class ArtificialInteligence():
         img_shape = (width, height, num_channels)
 
         # Cant elementos a clasifica
-        num_clases = 10
+        num_clases = 12
         cantidad_datos_entenamiento =  [8,8,8,8,8,8,8,8,8,8,8,8]
         cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5,5,5]
 
@@ -181,7 +181,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=60, batch_size=60)
+        model.fit(x=imagenes, y=probabilidades, epochs=24, batch_size=48)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -206,7 +206,7 @@ class ArtificialInteligence():
         scnn_cm = confusion_matrix(np.argmax(probabilidades_prueba, axis=1), scnn_predicted)
 
         # Visualiamos la matriz de confusión
-        scnn_df_cm = pd.DataFrame(scnn_cm, range(9), range(9))
+        scnn_df_cm = pd.DataFrame(scnn_cm, range(11), range(11))
         plt.figure(figsize=(20, 14))
         sn.set(font_scale=1.4)  # for label size
         sn.heatmap(scnn_df_cm, annot=True, annot_kws={"size": 12})  # font size
@@ -225,7 +225,7 @@ class ArtificialInteligence():
         img_shape = (width, height, num_channels)
 
         # Cant elementos a clasifica
-        num_clases = 10
+        num_clases = 12
         cantidad_datos_entenamiento =  [8,8,8,8,8,8,8,8,8,8,8,8]
         cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5,5,5]
 
@@ -259,7 +259,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=30, batch_size=60)
+        model.fit(x=imagenes, y=probabilidades, epochs=24, batch_size=48)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -284,7 +284,7 @@ class ArtificialInteligence():
         scnn_cm = confusion_matrix(np.argmax(probabilidades_prueba, axis=1), scnn_predicted)
 
         # Visualiamos la matriz de confusión
-        scnn_df_cm = pd.DataFrame(scnn_cm, range(9), range(9))
+        scnn_df_cm = pd.DataFrame(scnn_cm, range(11), range(11)) # Por que son 12 categorias
         plt.figure(figsize=(20, 14))
         sn.set(font_scale=1.4)  # for label size
         sn.heatmap(scnn_df_cm, annot=True, annot_kws={"size": 12})  # font size
@@ -305,7 +305,7 @@ class ArtificialInteligence():
         cv2.destroyAllWindows()
 
     def probarModelo(self, imagen):
-        categorias = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+        categorias = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
 
         width = 128
         height = 128
@@ -317,13 +317,13 @@ class ArtificialInteligence():
 
         return categodria_predicha
 
-    def mostrarAcumulado(acum, img):
+    def mostrarAcumulado(self, acum, img):
         cv2.putText(img, 'Acomulado {}'.format(acum), (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
         cv2.imshow("Imagen", img)
 
 
 #FelipedelosH
-i = ArtificialInteligence()
-i.modelo1()
-i.modelo2()
-i.modelo3()
+#i = ArtificialInteligence()
+#i.modelo1()
+#i.modelo2()
+#i.modelo3()
