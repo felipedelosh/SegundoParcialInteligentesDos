@@ -115,7 +115,7 @@ class Kamera():
                     # IF not in list save
                     if acum not in self.valuesCartsToSum:
                         self.valuesCartsToSum.append(acum)
-                    self.dataREPORT.append("Estoy leyendo la carta Nr: " + str(cart_counter) +  "Archivo" + str(i) + "El resultado es: " + str(acum) +  "\n")
+                    self.dataREPORT.append("Estoy leyendo la carta Nr: " + str(cart_counter) +  " -> Archivo" + str(i) + "El resultado es: " + str(acum) +  "\n")
                     cart_counter = cart_counter + 1
 
                 # Generate a report:
@@ -125,10 +125,10 @@ class Kamera():
                 # Generating a SUM of carts
                 suma = 0
                 for y in self.valuesCartsToSum:
-                    pass
+                    suma = suma + y
                 self.generateReport(txt)
 
-                self.mostrarAcumulado("loco", frame)
+                self.mostrarAcumulado(str(suma), frame)
 
 
         self.cap.release()
@@ -157,9 +157,11 @@ class Kamera():
         areas=self.calcularAreas(objetos)
         i=0
         areaMin=cv2.getTrackbarPos("areaMin",self.nameWindow)
-        print("Cantidad de cartas detectadas...", len(objetos))
+        
         contador = 0
+        contadorObjetos = 0
         for objetoActual in objetos:
+            contadorDeObjetos = 
             if areas[i]>=areaMin:
 
                 vertices=cv2.approxPolyDP(objetoActual,0.025*cv2.arcLength(objetoActual, closed=True),True)
@@ -172,13 +174,17 @@ class Kamera():
                         new_img=imagen[y:y+h,x:x+w] # Rectangle
                         name = "IMG_detectForm_" + str(contador) + "_PICTURE_" + str(img_name) + ".jpg"
                         img_name_to_detect_forms = name
+                        # Only save a 2 gay picture lo load then
+                        blckAndWhiteImage = cv2.cvtColor(new_img, cv2.COLOR_BGR2GRAY) 
                         # Save a cart
-                        self.carts.append(new_img)
-                        # Save a name of cart
+                        self.carts.append(blckAndWhiteImage)
+                        # Save a name of card
                         self.nameCarts.append(img_name_to_detect_forms)
-                        cv2.imwrite(img_name_to_detect_forms,new_img)
+                        cv2.imwrite(img_name_to_detect_forms,blckAndWhiteImage)
                         contador = contador + 1
             i = i+1
+
+        self.dataREPORT.append("Cantidad de objetos detectados " + len(objetos))
 
     def calcularAreas(self, objetos):
         areas=[]
