@@ -104,7 +104,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=96)
+        model.fit(x=imagenes, y=probabilidades, epochs=32, batch_size=96)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -181,7 +181,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=96)
+        model.fit(x=imagenes, y=probabilidades, epochs=32, batch_size=96)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -259,7 +259,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=96)
+        model.fit(x=imagenes, y=probabilidades, epochs=32, batch_size=96)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -304,26 +304,8 @@ class ArtificialInteligence():
                 break
         cv2.destroyAllWindows()
 
-    def probarModelo(self, imagen):
-        categorias = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
-
-        width = 128
-        height = 128
-
-        miModeloCNN = Prediction("models/model_c.h5", width, height)
-        imagen_seleccionada = cv2.imread(imagen, 0)
-
-        categodria_predicha = miModeloCNN.predecir(imagen_seleccionada)
-
-        return categodria_predicha
-
-    def mostrarAcumulado(self, acum, img):
-        cv2.putText(img, 'Acomulado {}'.format(acum), (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-        cv2.imshow("Imagen", img)
-
 
 #FelipedelosH
-"""
 
 i = ArtificialInteligence()
 i.modelo1()
@@ -333,3 +315,5 @@ print("===========Fin modelo 2==========")
 i.modelo3()
 print("===========Fin modelo 3==========")
 """
+"""
+
