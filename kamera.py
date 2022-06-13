@@ -159,9 +159,8 @@ class Kamera():
         areaMin=cv2.getTrackbarPos("areaMin",self.nameWindow)
         
         contador = 0
-        contadorObjetos = 0
         for objetoActual in objetos:
-            contadorDeObjetos = 
+            
             if areas[i]>=areaMin:
 
                 vertices=cv2.approxPolyDP(objetoActual,0.025*cv2.arcLength(objetoActual, closed=True),True)
@@ -184,7 +183,7 @@ class Kamera():
                         contador = contador + 1
             i = i+1
 
-        self.dataREPORT.append("Cantidad de objetos detectados " + len(objetos))
+        self.dataREPORT.append("Cantidad de objetos detectados " + str(len(objetos)) + "\nSE CARGARAN LAS SIGUIENTES CARTAS:\n")
 
     def calcularAreas(self, objetos):
         areas=[]
