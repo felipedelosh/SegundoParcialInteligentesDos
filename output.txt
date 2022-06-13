@@ -1,11 +1,13 @@
-Cantidad de cartas detectadas: 5
+Cantidad de cartas detectadas: 4
+Contruyendo img 0 -> Dimenciones:  x:323 y:136 w:263 h:227
+Contruyendo img 1 -> Dimenciones:  x:326 y:138 w:259 h:221
+Contruyendo img 2 -> Dimenciones:  x:46 y:132 w:272 h:225
+Contruyendo img 3 -> Dimenciones:  x:47 y:134 w:270 h:220
 Estoy leyendo la carta Nr: 0ArchivoIMG_detectForm_0_PICTURE_0.jpgEl resultado es: 8
 
-Estoy leyendo la carta Nr: 1ArchivoIMG_detectForm_1_PICTURE_0.jpgEl resultado es: 8
+Estoy leyendo la carta Nr: 1ArchivoIMG_detectForm_1_PICTURE_0.jpgEl resultado es: 3
 
 Estoy leyendo la carta Nr: 2ArchivoIMG_detectForm_2_PICTURE_0.jpgEl resultado es: 3
 
 Estoy leyendo la carta Nr: 3ArchivoIMG_detectForm_3_PICTURE_0.jpgEl resultado es: 3
-
-Estoy leyendo la carta Nr: 4ArchivoIMG_detectForm_4_PICTURE_0.jpgEl resultado es: 3
 

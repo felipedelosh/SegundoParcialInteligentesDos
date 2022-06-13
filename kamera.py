@@ -26,6 +26,7 @@ class Kamera():
         self.carts = []
         self.nameCarts = []
         self.dataREPORT = []
+        self.valuesCartsToSum = []
         #
         self.cap = cv2.VideoCapture(self.host_kamera)
 
@@ -111,6 +112,9 @@ class Kamera():
                 for i in self.nameCarts:
                     # Cada carta se debe de predecir a blanco y negro
                     acum = self.probarModelo(i)
+                    # IF not in list save
+                    if acum not in self.valuesCartsToSum:
+                        self.valuesCartsToSum.append(acum)
                     self.dataREPORT.append("Estoy leyendo la carta Nr: " + str(cart_counter) +  "Archivo" + str(i) + "El resultado es: " + str(acum) +  "\n")
                     cart_counter = cart_counter + 1
 
@@ -118,6 +122,10 @@ class Kamera():
                 txt = "Cantidad de cartas detectadas: " + str(len(self.carts)) + "\n"
                 for j in self.dataREPORT:
                     txt = txt + j + "\n"
+                # Generating a SUM of carts
+                suma = 0
+                for y in self.valuesCartsToSum:
+                    pass
                 self.generateReport(txt)
 
                 self.mostrarAcumulado("loco", frame)
@@ -158,15 +166,18 @@ class Kamera():
 
                 if len(vertices) == 4 :
                     x, y, w, h = cv2.boundingRect(vertices)
-                    new_img=imagen[y:y+h,x:x+w] # Rectangle
-                    name = "IMG_detectForm_" + str(contador) + "_PICTURE_" + str(img_name) + ".jpg"
-                    img_name_to_detect_forms = name
-                    # Save a cart
-                    self.carts.append(new_img)
-                    # Save a name of cart
-                    self.nameCarts.append(img_name_to_detect_forms)
-                    cv2.imwrite(img_name_to_detect_forms,new_img)
-                    contador = contador + 1
+                    # No need to cacth litle images 
+                    if w > 150 and h > 150:
+                        self.dataREPORT.append("Contruyendo img " + str(contador) + " -> Dimenciones:  x:" + str(x) + " y:" + str(y) + " w:"+ str(w) + " h:" + str(h))
+                        new_img=imagen[y:y+h,x:x+w] # Rectangle
+                        name = "IMG_detectForm_" + str(contador) + "_PICTURE_" + str(img_name) + ".jpg"
+                        img_name_to_detect_forms = name
+                        # Save a cart
+                        self.carts.append(new_img)
+                        # Save a name of cart
+                        self.nameCarts.append(img_name_to_detect_forms)
+                        cv2.imwrite(img_name_to_detect_forms,new_img)
+                        contador = contador + 1
             i = i+1
 
     def calcularAreas(self, objetos):
