@@ -1,0 +1,11 @@
+Cantidad de cartas detectadas: 5
+Estoy leyendo la carta Nr: 0ArchivoIMG_detectForm_0_PICTURE_0.jpgEl resultado es: 8
+
+Estoy leyendo la carta Nr: 1ArchivoIMG_detectForm_1_PICTURE_0.jpgEl resultado es: 8
+
+Estoy leyendo la carta Nr: 2ArchivoIMG_detectForm_2_PICTURE_0.jpgEl resultado es: 3
+
+Estoy leyendo la carta Nr: 3ArchivoIMG_detectForm_3_PICTURE_0.jpgEl resultado es: 3
+
+Estoy leyendo la carta Nr: 4ArchivoIMG_detectForm_4_PICTURE_0.jpgEl resultado es: 3
+

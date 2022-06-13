@@ -5,6 +5,7 @@ This is a class to capture a camera
 """
 import cv2
 from cv2 import namedWindow
+from cv2 import cartToPolar
 from ArtificialInteligence import *
 import numpy as np
 
@@ -23,6 +24,8 @@ class Kamera():
         # IA
         self.IA = ArtificialInteligence()
         self.carts = []
+        self.nameCarts = []
+        self.dataREPORT = []
         #
         self.cap = cv2.VideoCapture(self.host_kamera)
 
@@ -86,6 +89,7 @@ class Kamera():
             k=cv2.waitKey(1)
             if k%256 == 99 :
                 self.carts = []
+                self.dataREPORT = []
                 cont = cont + 1
                 print("Take a picture: ")
                 img_name ="imagen_{}.jpg".format(img_counter)
@@ -100,15 +104,33 @@ class Kamera():
                 self.detectarForma(frame,img_counter)
 
                 img_counter = img_counter + 1
-                acum = self.probarModelo(img_name)
+                # The carts save in self.carts 
+                print("Cantidad de cartas a sumar...", len(self.carts))
 
-                self.mostrarAcumulado(acum, frame)
+                cart_counter = 0
+                for i in self.nameCarts:
+                    # Cada carta se debe de predecir a blanco y negro
+                    acum = self.probarModelo(i)
+                    self.dataREPORT.append("Estoy leyendo la carta Nr: " + str(cart_counter) +  "Archivo" + str(i) + "El resultado es: " + str(acum) +  "\n")
+                    cart_counter = cart_counter + 1
+
+                # Generate a report:
+                txt = "Cantidad de cartas detectadas: " + str(len(self.carts)) + "\n"
+                for j in self.dataREPORT:
+                    txt = txt + j + "\n"
+                self.generateReport(txt)
+
+                self.mostrarAcumulado("loco", frame)
 
 
         self.cap.release()
         cv2.destroyAllWindows()
 
     def detectarForma(self, imagen, img_name):
+        """
+        Enter a IMG and then save all rectangles...
+        Note: UP with min and HIG max:  to detec a rectangles
+        """
         imagenGris=cv2.cvtColor(imagen,cv2.COLOR_BGR2GRAY)
         img_name_to_detect_forms ="imagen_2gaycolor{}.jpg".format(img_name)
         cv2.imwrite(img_name_to_detect_forms,imagenGris)
@@ -141,6 +163,8 @@ class Kamera():
                     img_name_to_detect_forms = name
                     # Save a cart
                     self.carts.append(new_img)
+                    # Save a name of cart
+                    self.nameCarts.append(img_name_to_detect_forms)
                     cv2.imwrite(img_name_to_detect_forms,new_img)
                     contador = contador + 1
             i = i+1
@@ -168,3 +192,12 @@ class Kamera():
     def mostrarAcumulado(self, acum, img):
         cv2.putText(img, 'Acumulado: + {}'.format(acum), (10, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
         cv2.imshow("Imagen", img)
+
+
+    def generateReport(self, text):
+        try:
+            f = open('output.txt', 'w', encoding="utf-8")
+            f.write(text)
+            f.close()
+        except:
+            pass
