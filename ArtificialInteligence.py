@@ -58,8 +58,6 @@ class ArtificialInteligence():
         print("CANTIDAD DE VALORES", len(valores_esperados))
 
         return imagenes_entrenamiento, valores_esperados
-                
-
 
     ####### Funciones requeridas
     def modelo1(self):
@@ -74,7 +72,7 @@ class ArtificialInteligence():
         # Cant elementos a clasifica
         num_clases = 10
         cantidad_datos_entenamiento =  [28,28,28,28,28,28,28,28,28,28]
-        cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5]
+        cantidad_datos_pruebas = [6,6,6,6,6,6,6,6,6,6]
         
 
         ##Carga de los datos
@@ -91,16 +89,15 @@ class ArtificialInteligence():
         model.add(Reshape(img_shape))
 
         # Capas convolucionales
-        model.add(Conv2D(kernel_size=32, strides=2, filters=16, padding="same", activation="relu", name="capa_1"))
+        model.add(Conv2D(kernel_size=8, strides=2, filters=8, padding="same", activation="relu", name="capa_1"))
         model.add(MaxPool2D(pool_size=2, strides=2))
 
-        model.add(Conv2D(kernel_size=32,strides=2, filters=36, padding="same", activation="relu", name="capa_2"))
+        model.add(Conv2D(kernel_size=8,strides=2, filters=26, padding="same", activation="relu", name="capa_2"))
         model.add(MaxPool2D(pool_size=2, strides=2))
 
         # Aplanamiento
         model.add(Flatten())
         model.add(Dense(128, activation="relu"))
-        model.add(Dense(50, activation="relu"))
         
         # Capa de salida
         model.add(Dense(num_clases, activation="softmax"))
@@ -141,7 +138,6 @@ class ArtificialInteligence():
 
         scnn_report = classification_report(np.argmax(probabilidades_prueba, axis=1), scnn_predicted)
         print("SCNN REPORT", scnn_report)
-
     def modelo2(self):
         width = 128
         height = 128
