@@ -39,7 +39,8 @@ class ArtificialInteligence():
                 if 'TESTDATA/' in fase:
                     ruta=fase+str(categoria)+"/"+str(categoria)+"_"+str(idImagen)+".jpg"
                 else:
-                    ruta=fase+str(categoria)+"/"+str(categoria)+"_"+str(idImagen)+".JPEG"
+                    ruta=fase+str(categoria)+"/"+str(categoria)+"_"+str(idImagen)+".JPG"
+                print("cargada img: "+ruta)
                 imagen=cv2.imread(ruta)
                 imagen=cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
                 imagen = cv2.resize(imagen, (width, height))
@@ -70,7 +71,7 @@ class ArtificialInteligence():
 
         # Cant elementos a clasifica
         num_clases = 12
-        cantidad_datos_entenamiento =  [8,8,8,8,8,8,8,8,8,8,8,8]
+        cantidad_datos_entenamiento =  [27,27,27,27,27,27,27,27,27,27,27,27]
         cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5,5,5]
         
 
@@ -104,7 +105,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=32, batch_size=96)
+        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=150)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -149,7 +150,7 @@ class ArtificialInteligence():
 
         # Cant elementos a clasifica
         num_clases = 12
-        cantidad_datos_entenamiento =  [8,8,8,8,8,8,8,8,8,8,8,8]
+        cantidad_datos_entenamiento =  [27,27,27,27,27,27,27,27,27,27,27,27]
         cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5,5,5]
 
         ##Carga de los datos
@@ -181,7 +182,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=32, batch_size=96)
+        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=150)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -226,7 +227,7 @@ class ArtificialInteligence():
 
         # Cant elementos a clasifica
         num_clases = 12
-        cantidad_datos_entenamiento =  [8,8,8,8,8,8,8,8,8,8,8,8]
+        cantidad_datos_entenamiento =  [27,27,27,27,27,27,27,27,27,27,27,27]
         cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5,5,5]
 
         ##Carga de los datos
@@ -259,7 +260,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=32, batch_size=96)
+        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=150)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -306,7 +307,7 @@ class ArtificialInteligence():
 
 
 #FelipedelosH
-
+"""
 i = ArtificialInteligence()
 i.modelo1()
 print("===========Fin modelo 1==========")
@@ -314,6 +315,6 @@ i.modelo2()
 print("===========Fin modelo 2==========")
 i.modelo3()
 print("===========Fin modelo 3==========")
-"""
+
 """
 
