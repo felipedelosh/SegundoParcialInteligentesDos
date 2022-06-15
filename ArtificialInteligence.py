@@ -91,24 +91,23 @@ class ArtificialInteligence():
         model.add(Reshape(img_shape))
 
         # Capas convolucionales
-        model.add(Conv2D(kernel_size=8, strides=2, filters=16, padding="same", activation="relu", name="capa_1"))
+        model.add(Conv2D(kernel_size=32, strides=2, filters=16, padding="same", activation="relu", name="capa_1"))
         model.add(MaxPool2D(pool_size=2, strides=2))
 
-        model.add(Conv2D(kernel_size=8,strides=2, filters=32, padding="same", activation="relu", name="capa_2"))
+        model.add(Conv2D(kernel_size=32,strides=2, filters=36, padding="same", activation="relu", name="capa_2"))
         model.add(MaxPool2D(pool_size=2, strides=2))
 
         # Aplanamiento
-        model.add(Flatten(input_shape=(width, height)))
+        model.add(Flatten())
         model.add(Dense(128, activation="relu"))
-        model.add(Dense(84, activation="relu")) # Capa oculta para ayudar a la IA a clasificar
-
+        
         # Capa de salida
         model.add(Dense(num_clases, activation="softmax"))
 
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=60, batch_size=120)
+        model.fit(x=imagenes, y=probabilidades, epochs=30, batch_size=60)
         # Pruebas 
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -126,7 +125,7 @@ class ArtificialInteligence():
 
         metricResult = model.evaluate(x=imagenes, y=probabilidades)
 
-        scnn_pred = model.predict(imagenes_prueba, batch_size=120, verbose=1)
+        scnn_pred = model.predict(imagenes_prueba, batch_size=60, verbose=1)
         scnn_predicted = np.argmax(scnn_pred, axis=1)
 
         # Creamos la matriz de confusión
