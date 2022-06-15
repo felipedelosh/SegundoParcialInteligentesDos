@@ -100,6 +100,7 @@ class ArtificialInteligence():
         # Aplanamiento
         model.add(Flatten())
         model.add(Dense(128, activation="relu"))
+        model.add(Dense(50, activation="relu"))
         
         # Capa de salida
         model.add(Dense(num_clases, activation="softmax"))
