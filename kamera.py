@@ -192,7 +192,7 @@ class Kamera():
         return areas
 
     def probarModelo(self, imagen):
-        categorias = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+        categorias = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 
         width = 128
         height = 128

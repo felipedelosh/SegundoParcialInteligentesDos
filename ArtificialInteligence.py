@@ -33,23 +33,24 @@ class ArtificialInteligence():
         valorEsperado=[]
 
         print("Este es el numero de categoias", numeroCategorias)
-
-        for categoria in range(1, numeroCategorias):
-            for idImagen in range(1, limite[categoria]):
+        for categoria in range(1, numeroCategorias+1): # Start #1 ID folder and end #10 id folder //DATASET
+            for idImagen in range(1, limite[categoria-1]): # Start in img 1 and end in img 27>> example 3_27.JPG 
                 if 'TESTDATA/' in fase:
                     ruta=fase+str(categoria)+"/"+str(categoria)+"_"+str(idImagen)+".jpg"
                 else:
                     ruta=fase+str(categoria)+"/"+str(categoria)+"_"+str(idImagen)+".JPG"
-                print("cargada img: "+ruta)
-                imagen=cv2.imread(ruta)
-                imagen=cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
-                imagen = cv2.resize(imagen, (width, height))
+                
+                imagen=cv2.imread(ruta) # Se lee la imagen desde disco duro
+                imagen=cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY) # Se convierte a blanco y negro
+                imagen = cv2.resize(imagen, (width, height)) # Se más pequeña
                 imagen=imagen.flatten()
                 imagen=imagen/255
                 imagenesCargadas.append(imagen)
                 probabilidades=np.zeros(numeroCategorias)
-                probabilidades[categoria]=1
+                probabilidades[categoria-1]=1
                 valorEsperado.append(probabilidades)
+                print("cargada img: "+ruta + " ... Probabilidades: " + str(probabilidades) + " ... categoria: " + str(categoria))
+
         imagenes_entrenamiento = np.array(imagenesCargadas)
         valores_esperados = np.array(valorEsperado)
 
@@ -57,6 +58,7 @@ class ArtificialInteligence():
         print("CANTIDAD DE VALORES", len(valores_esperados))
 
         return imagenes_entrenamiento, valores_esperados
+                
 
 
     ####### Funciones requeridas
@@ -70,9 +72,9 @@ class ArtificialInteligence():
         img_shape = (width, height, num_channels)
 
         # Cant elementos a clasifica
-        num_clases = 12
-        cantidad_datos_entenamiento =  [27,27,27,27,27,27,27,27,27,27,27,27]
-        cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5,5,5]
+        num_clases = 10
+        cantidad_datos_entenamiento =  [28,28,28,28,28,28,28,28,28,28]
+        cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5]
         
 
         ##Carga de los datos
@@ -82,22 +84,23 @@ class ArtificialInteligence():
 
         model = Sequential()
 
-        # Capa de entrada
+        # Capa de entrada 128,128 a blanco y negro
         model.add(InputLayer(input_shape=(pixeles,)))
 
         # Re armar la imagen
         model.add(Reshape(img_shape))
 
         # Capas convolucionales
-        model.add(Conv2D(kernel_size=5, strides=2, filters=16, padding="same", activation="relu", name="capa_1"))
+        model.add(Conv2D(kernel_size=8, strides=2, filters=16, padding="same", activation="relu", name="capa_1"))
         model.add(MaxPool2D(pool_size=2, strides=2))
 
-        model.add(Conv2D(kernel_size=5, strides=2, filters=36, padding="same", activation="relu", name="capa_2"))
+        model.add(Conv2D(kernel_size=8,strides=2, filters=32, padding="same", activation="relu", name="capa_2"))
         model.add(MaxPool2D(pool_size=2, strides=2))
 
         # Aplanamiento
-        model.add(Flatten())
+        model.add(Flatten(input_shape=(width, height)))
         model.add(Dense(128, activation="relu"))
+        model.add(Dense(84, activation="relu")) # Capa oculta para ayudar a la IA a clasificar
 
         # Capa de salida
         model.add(Dense(num_clases, activation="softmax"))
@@ -105,8 +108,8 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=150)
-        # Pruebas
+        model.fit(x=imagenes, y=probabilidades, epochs=60, batch_size=120)
+        # Pruebas 
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
         print("METRIC NAMES", model.metrics_names)
@@ -123,14 +126,14 @@ class ArtificialInteligence():
 
         metricResult = model.evaluate(x=imagenes, y=probabilidades)
 
-        scnn_pred = model.predict(imagenes_prueba, batch_size=20, verbose=1)
+        scnn_pred = model.predict(imagenes_prueba, batch_size=120, verbose=1)
         scnn_predicted = np.argmax(scnn_pred, axis=1)
 
         # Creamos la matriz de confusión
         scnn_cm = confusion_matrix(np.argmax(probabilidades_prueba, axis=1), scnn_predicted)
 
         # Visualiamos la matriz de confusión
-        scnn_df_cm = pd.DataFrame(scnn_cm, range(11), range(11))
+        scnn_df_cm = pd.DataFrame(scnn_cm, range(10), range(10))
         plt.figure(figsize=(20, 14))
         sn.set(font_scale=1.4)  # for label size
         sn.heatmap(scnn_df_cm, annot=True, annot_kws={"size": 12})  # font size
@@ -149,9 +152,9 @@ class ArtificialInteligence():
         img_shape = (width, height, num_channels)
 
         # Cant elementos a clasifica
-        num_clases = 12
-        cantidad_datos_entenamiento =  [27,27,27,27,27,27,27,27,27,27,27,27]
-        cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5,5,5]
+        num_clases = 10
+        cantidad_datos_entenamiento =  [28,28,28,28,28,28,28,28,28,28]
+        cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5]
 
         ##Carga de los datos
         imagenes, probabilidades = self.cargarDatos("DATASET/", num_clases, cantidad_datos_entenamiento, width, height)
@@ -182,7 +185,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=150)
+        model.fit(x=imagenes, y=probabilidades, epochs=30, batch_size=50)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -207,7 +210,7 @@ class ArtificialInteligence():
         scnn_cm = confusion_matrix(np.argmax(probabilidades_prueba, axis=1), scnn_predicted)
 
         # Visualiamos la matriz de confusión
-        scnn_df_cm = pd.DataFrame(scnn_cm, range(11), range(11))
+        scnn_df_cm = pd.DataFrame(scnn_cm, range(9), range(9))
         plt.figure(figsize=(20, 14))
         sn.set(font_scale=1.4)  # for label size
         sn.heatmap(scnn_df_cm, annot=True, annot_kws={"size": 12})  # font size
@@ -226,9 +229,9 @@ class ArtificialInteligence():
         img_shape = (width, height, num_channels)
 
         # Cant elementos a clasifica
-        num_clases = 12
-        cantidad_datos_entenamiento =  [27,27,27,27,27,27,27,27,27,27,27,27]
-        cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5,5,5]
+        num_clases = 10
+        cantidad_datos_entenamiento =  [28,28,28,28,28,28,28,28,28,28]
+        cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5]
 
         ##Carga de los datos
         imagenes, probabilidades = self.cargarDatos("DATASET/", num_clases, cantidad_datos_entenamiento, width, height)
@@ -285,7 +288,7 @@ class ArtificialInteligence():
         scnn_cm = confusion_matrix(np.argmax(probabilidades_prueba, axis=1), scnn_predicted)
 
         # Visualiamos la matriz de confusión
-        scnn_df_cm = pd.DataFrame(scnn_cm, range(11), range(11)) # Por que son 12 categorias
+        scnn_df_cm = pd.DataFrame(scnn_cm, range(9), range(9)) # Por que son 12 categorias
         plt.figure(figsize=(20, 14))
         sn.set(font_scale=1.4)  # for label size
         sn.heatmap(scnn_df_cm, annot=True, annot_kws={"size": 12})  # font size
@@ -293,6 +296,8 @@ class ArtificialInteligence():
 
         scnn_report = classification_report(np.argmax(probabilidades_prueba, axis=1), scnn_predicted)
         print("SCNN REPORT", scnn_report)
+
+
 
     def imageToText(self):
         imagen_seleccionada=cv2.imread("dataset/test/3/3_4.jpg")
@@ -315,6 +320,5 @@ print("===========Fin modelo 1==========")
 print("===========Fin modelo 2==========")
 #i.modelo3()
 print("===========Fin modelo 3==========")
-
 """
 """
