@@ -123,7 +123,7 @@ class ArtificialInteligence():
 
         metricResult = model.evaluate(x=imagenes, y=probabilidades)
 
-        scnn_pred = model.predict(imagenes_prueba, batch_size=150, verbose=1)
+        scnn_pred = model.predict(imagenes_prueba, batch_size=20, verbose=1)
         scnn_predicted = np.argmax(scnn_pred, axis=1)
 
         # Creamos la matriz de confusión
@@ -307,14 +307,14 @@ class ArtificialInteligence():
 
 
 #FelipedelosH
-"""
+
 i = ArtificialInteligence()
 i.modelo1()
 print("===========Fin modelo 1==========")
-i.modelo2()
+#i.modelo2()
 print("===========Fin modelo 2==========")
-i.modelo3()
+#i.modelo3()
 print("===========Fin modelo 3==========")
 
 """
-
+"""
