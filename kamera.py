@@ -1,5 +1,5 @@
 """
-felipedelosh
+FelipedelosH&SantiguzmaN
 This is a class to capture a camera
 
 """
@@ -12,7 +12,7 @@ import numpy as np
 class Kamera():
     def __init__(self) -> None:
         self.default_kamera = 0
-        self.host_kamera = 'http://192.168.20.62:4747/video' # I hav anndriod and install DroidCAM
+        self.host_kamera = 0 # I hav anndriod and install DroidCAM
         # Config kamera
         self.nameWindow = "Controllers: ->"
 
@@ -41,8 +41,8 @@ class Kamera():
 
     def generateSlidersPanel(self):
         cv2.namedWindow(self.nameWindow)
-        cv2.createTrackbar("min",self.nameWindow,0,255,self.nothing)
-        cv2.createTrackbar("max",self.nameWindow,1,100,self.nothing)
+        cv2.createTrackbar("min",self.nameWindow,255,255,self.nothing)
+        cv2.createTrackbar("max",self.nameWindow,100,100,self.nothing)
         cv2.createTrackbar("kernel",self.nameWindow,0,255,self.nothing)
         cv2.createTrackbar("areaMin",self.nameWindow,500,10000,self.nothing)
        
@@ -84,7 +84,7 @@ class Kamera():
         while(True):
             ret,frame = self.cap.read()
             self.filters(frame) # Init another images
-            cv2.imshow('Kamera del loko a todo color...',frame)
+            cv2.imshow('Kamera del loko y santiago guzman a color...',frame)
             if not ret:
                 break
             k=cv2.waitKey(1)

@@ -1,5 +1,5 @@
 """
-FelipedelosH
+FelipedelosH&SantiguzmaN
 
 python -m pip install --ignore-installed --upgrade TensorFlow
 
@@ -71,8 +71,8 @@ class ArtificialInteligence():
 
         # Cant elementos a clasifica
         num_clases = 10
-        cantidad_datos_entenamiento =  [28,28,28,28,28,28,28,28,28,28]
-        cantidad_datos_pruebas = [6,6,6,6,6,6,6,6,6,6]
+        cantidad_datos_entenamiento =  [21,21,21,21,21,21,21,21,21,21]
+        cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5]
         
 
         ##Carga de los datos
@@ -89,15 +89,17 @@ class ArtificialInteligence():
         model.add(Reshape(img_shape))
 
         # Capas convolucionales
-        model.add(Conv2D(kernel_size=8, strides=2, filters=8, padding="same", activation="relu", name="capa_1"))
-        model.add(MaxPool2D(pool_size=2, strides=2))
+        model.add(Conv2D(kernel_size=(5,5), filters=10, activation="relu", name="capa_1"))
+        model.add(MaxPool2D(pool_size=(2,2), strides=2))
 
-        model.add(Conv2D(kernel_size=8,strides=2, filters=26, padding="same", activation="relu", name="capa_2"))
-        model.add(MaxPool2D(pool_size=2, strides=2))
+        model.add(Conv2D(kernel_size=(5,5), filters=30, activation="relu", name="capa_2"))
+        model.add(MaxPool2D(pool_size=(2,2), strides=2))
 
         # Aplanamiento
         model.add(Flatten())
         model.add(Dense(128, activation="relu"))
+        model.add(Dense(84, activation="relu"))
+
         
         # Capa de salida
         model.add(Dense(num_clases, activation="softmax"))
@@ -105,7 +107,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=30, batch_size=60)
+        model.fit(x=imagenes, y=probabilidades, epochs=20, batch_size=60)
         # Pruebas 
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -138,6 +140,9 @@ class ArtificialInteligence():
 
         scnn_report = classification_report(np.argmax(probabilidades_prueba, axis=1), scnn_predicted)
         print("SCNN REPORT", scnn_report)
+
+
+        
     def modelo2(self):
         width = 128
         height = 128
@@ -149,7 +154,7 @@ class ArtificialInteligence():
 
         # Cant elementos a clasifica
         num_clases = 10
-        cantidad_datos_entenamiento =  [28,28,28,28,28,28,28,28,28,28]
+        cantidad_datos_entenamiento =  [21,21,21,21,21,21,21,21,21,21]
         cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5]
 
         ##Carga de los datos
@@ -166,9 +171,9 @@ class ArtificialInteligence():
         model.add(Reshape(img_shape))
 
         # Capas convolucionales
-        model.add(Conv2D(kernel_size=2, strides=2, filters=40, padding="same", activation="elu", name="capa_1"))
+        model.add(Conv2D(kernel_size=2, strides=2, filters=10, padding="same", activation="elu", name="capa_1"))
         model.add(MaxPool2D(pool_size=2, strides=2))
-        model.add(Conv2D(kernel_size=2, strides=2, filters=50, padding="same", activation="elu", name="capa_2"))
+        model.add(Conv2D(kernel_size=2, strides=2, filters=20, padding="same", activation="elu", name="capa_2"))
         model.add(MaxPool2D(pool_size=2, strides=2))
 
         # Aplanamiento
@@ -181,7 +186,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=30, batch_size=50)
+        model.fit(x=imagenes, y=probabilidades, epochs=20, batch_size=60)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -199,14 +204,14 @@ class ArtificialInteligence():
 
         metricResult = model.evaluate(x=imagenes, y=probabilidades)
 
-        scnn_pred = model.predict(imagenes_prueba, batch_size=150, verbose=1)
+        scnn_pred = model.predict(imagenes_prueba, batch_size=60, verbose=1)
         scnn_predicted = np.argmax(scnn_pred, axis=1)
 
         # Creamos la matriz de confusión
         scnn_cm = confusion_matrix(np.argmax(probabilidades_prueba, axis=1), scnn_predicted)
 
         # Visualiamos la matriz de confusión
-        scnn_df_cm = pd.DataFrame(scnn_cm, range(9), range(9))
+        scnn_df_cm = pd.DataFrame(scnn_cm, range(10), range(10))
         plt.figure(figsize=(20, 14))
         sn.set(font_scale=1.4)  # for label size
         sn.heatmap(scnn_df_cm, annot=True, annot_kws={"size": 12})  # font size
@@ -226,7 +231,7 @@ class ArtificialInteligence():
 
         # Cant elementos a clasifica
         num_clases = 10
-        cantidad_datos_entenamiento =  [28,28,28,28,28,28,28,28,28,28]
+        cantidad_datos_entenamiento =  [21,21,21,21,21,21,21,21,21,21]
         cantidad_datos_pruebas = [5,5,5,5,5,5,5,5,5,5]
 
         ##Carga de los datos
@@ -243,10 +248,10 @@ class ArtificialInteligence():
         model.add(Reshape(img_shape))
 
         # Capas convolucionales
-        model.add(Conv2D(kernel_size=8, strides=2, filters=30, padding="same", activation="selu", name="capa_1"))
+        model.add(Conv2D(kernel_size=8, strides=2, filters=10, padding="same", activation="selu", name="capa_1"))
         model.add(MaxPool2D(pool_size=2, strides=2))
 
-        model.add(Conv2D(kernel_size=8, strides=2, filters=36, padding="same", activation="selu", name="capa_2"))
+        model.add(Conv2D(kernel_size=8, strides=2, filters=20, padding="same", activation="selu", name="capa_2"))
         model.add(MaxPool2D(pool_size=2, strides=2))
 
         # Aplanamiento
@@ -259,7 +264,7 @@ class ArtificialInteligence():
         # Traducir de keras a tensorflow
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-        model.fit(x=imagenes, y=probabilidades, epochs=48, batch_size=150)
+        model.fit(x=imagenes, y=probabilidades, epochs=20, batch_size=60)
         # Pruebas
         imagenes_prueba, probabilidades_prueba = self.cargarDatos("TESTDATA/", num_clases, cantidad_datos_pruebas, width, height)
         resultados=model.evaluate(x=imagenes_prueba, y=probabilidades_prueba)
@@ -277,14 +282,14 @@ class ArtificialInteligence():
 
         metricResult = model.evaluate(x=imagenes, y=probabilidades)
 
-        scnn_pred = model.predict(imagenes_prueba, batch_size=150, verbose=1)
+        scnn_pred = model.predict(imagenes_prueba, batch_size=60, verbose=1)
         scnn_predicted = np.argmax(scnn_pred, axis=1)
 
         # Creamos la matriz de confusión
         scnn_cm = confusion_matrix(np.argmax(probabilidades_prueba, axis=1), scnn_predicted)
 
         # Visualiamos la matriz de confusión
-        scnn_df_cm = pd.DataFrame(scnn_cm, range(9), range(9)) # Por que son 12 categorias
+        scnn_df_cm = pd.DataFrame(scnn_cm, range(10), range(10)) # Por que son 10 categorias
         plt.figure(figsize=(20, 14))
         sn.set(font_scale=1.4)  # for label size
         sn.heatmap(scnn_df_cm, annot=True, annot_kws={"size": 12})  # font size
@@ -307,14 +312,15 @@ class ArtificialInteligence():
         cv2.destroyAllWindows()
 
 
-#FelipedelosH
+#FelipedelosH&SantiguzmaN
 
 i = ArtificialInteligence()
+
 i.modelo1()
 print("===========Fin modelo 1==========")
-#i.modelo2()
+i.modelo2()
 print("===========Fin modelo 2==========")
-#i.modelo3()
+
+i.modelo3()
 print("===========Fin modelo 3==========")
-"""
-"""
+
